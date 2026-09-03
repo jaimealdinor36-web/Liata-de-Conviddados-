@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Convidados - SOMARE</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 15px;
+            background-color: #b8c5c0;
+            color: #333;
+        }
+
+        h1, h3 {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .guest-counter {
+            text-align: center;
+            font-size: 14px;
+            color: #4a443e;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        .search-box {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .search-box input {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px 15px;
+            font-size: 16px;
+            background-color: #fdfbf7;
+            border: 2px solid #dcd7ce;
+            border-radius: 8px;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+            color: #333;
+        }
+
+        .search-box input:focus {
+            border-color: #8c9c96;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fdfbf7;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e8e3d9;
+        }
+
+        th {
+            background-color: #d8cfc4;
+            color: #4a443e;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        tbody tr {
+            background-color: #fdfbf7;
+        }
+
+        tbody tr:hover {
+            background-color: #f5f0e6;
+        }
+
+        /* Estilo para as divisões de mesa */
+        tr.table-divider {
+            background-color: #eae3d2 !important;
+        }
+
+        tr.table-divider td {
+            font-weight: bold;
+            color: #5a524c;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 13px;
+            border-top: 2px solid #d0c7b7;
+            border-bottom: 2px solid #d0c7b7;
+            padding: 8px 15px;
+        }
+
+        .no-result {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #555;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>SOMARE</h1>
+    <h3>Lista de Convidados</h3>
+    <div class="guest-counter" id="guestCounter">Total de Registos: 0</div>
+
+    <div class="search-box">
+        <input type="text" id="searchInput" onkeyup="filterGuests()" placeholder="Pesquise pelo nome do convidado ou mesa...">
+    </div>
+
+    <table id="guestTable">
+        <thead>
+            <tr>
+                <th>Nome do Convidado</th>
+                <th>Mesa</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="table-divider"><td colspan="2">MESA-1</td></tr>
+            <tr><td>Laura Feliza & Francisco Madeira</td><td>MESA 1</td></tr>
+            <tr><td>Joao Venancio & Esposa</td><td>MESA 1</td></tr>
+            <tr><td>Miranda Sumine & Esposa</td><td>MESA 1</td></tr>
+            <tr><td>Simao Muhai & Esposa</td><td>MESA 1</td></tr>
+            <tr><td>Diogo Inguane & Esposa</td><td>MESA 1</td></tr>
+
+            <tr class="table-divider"><td colspan="2">MESA-2</td></tr>
+            <tr><td>Filipe Vilanculos</td><td>MESA 2</td></tr>
+            <tr><td>Sara Vilanculos</td><td>MESA 2</td></tr>
+            <tr><td>Nunes & Esposa</td><td>MESA 2</td></tr>
+            <tr><td>Ester Chissico</td><td>MESA 2</td></tr>
+            <tr><td>Graca Huo & Esposo</td><td>MESA 2</td></tr>
+            <tr><td>Lourenco Ngala & Esposa</td><td>MESA 2</td></tr>
+            <tr><td>Stelio Benjamin Chissico</td><td>MESA 2</td></tr>
+            <tr><td>Rosa Chissico</td><td>MESA 2</td></tr>
+            <tr><td>Sofia Chissico</td><td>MESA 2</td></tr>
+
+            <tr class="table-divider"><td colspan="2">MESA-3</td></tr>
+            <tr><td>Emilio De Campos & Esposa</td><td>MESA 3</td></tr>
+            <tr><td>Antonio Amelia & Esposa</td><td>MESA 3</td></tr>
+            <tr><td>Jose Magona & Maria Amelia</td><td>MESA 3</td></tr>
+            <tr><td>Ana Amelia</td><td>MESA 3</td></tr>
+            <tr><td>Jose Campos & Esposa</td><td>MESA 3</td></tr>
+            <tr><td>Anabela (Belinha)</td><td>MESA 3</td></tr>
+
+            <tr class="table-divider"><td colspan="2">MESA-4 (COMBOIO)</td></tr>
+            <tr><td>Afonso Campos & Esposa</td><td>MESA 4 (Comboio)</td></tr>
+            <tr><td>Beatriz Campos & Esposo</td><td>MESA 4 (Comboio)</td></tr>
+            <tr><td>Joaquina & Esposo</td><td>MESA 4 (Comboio)</td></tr>
+            <tr><td>Emiliana & Esposo</td><td>MESA 4 (Comboio)</td></tr>
+            <tr><td>Nelson & Esposa</td><td>MESA 4 (Comboio)</td></tr>
+            <tr><td>Joao Malamba Huo & Esposa</td><td>MESA 4 (Comboio)</td></tr>
+            <tr><td>Maria Ana Banze & Esposo</td><td>MESA 4 (Comboio)</td></tr>
+            <tr><td>Floyd Chiteve & Esposa</td><td>MESA 4 (Comboio)</td></tr>
+            <tr><td>Maria Angela Nhambiu</td><td>MESA 4 (Comboio)</td></tr>
+            <tr><td>Graca Come</td><td>MESA 4 (Comboio)</td></tr>
+            <tr><td>Aurora Humbane</td><td>MESA 4 (Comboio)</td></tr>
+            <tr><td>Maria Teresa Faquira & Esposo</td><td>MESA 4 (Comboio)</td></tr>
+
+            <tr class="table-divider"><td colspan="2">MESA-5</td></tr>
+            <tr><td>Luis Lobo & Esposa</td><td>MESA 5</td></tr>
+            <tr><td>Eusebio Nehemia & Esposa</td><td>MESA 5</td></tr>
+            <tr><td>Isaias Muhate & Esposa</td><td>MESA 5</td></tr>
+            <tr><td>Ezequias Jonasse & Esposa</td><td>MESA 5</td></tr>
+            <tr><td>Castigo Langa & Esposa</td><td>MESA 5</td></tr>
+            <tr><td>Arminda Cardoso</td><td>MESA 5</td></tr>
+            <tr><td>Marcela Mulapo</td><td>MESA 5</td></tr>
+            <tr><td>Marta Bazima</td><td>MESA 5</td></tr>
+
+            <tr class="table-divider"><td colspan="2">MESA-6</td></tr>
+            <tr><td>Leidita Naftal & Esposo</td><td>MESA 6</td></tr>
+            <tr><td>Costa Bacela & Esposa</td><td>MESA 6</td></tr>
+            <tr><td>Artur Veloso & Esposa</td><td>MESA 6</td></tr>
+            <tr><td>Yolanda Chissico</td><td>MESA 6</td></tr>
+            <tr><td>Fernando Vilanculos</td><td>MESA 6</td></tr>
+            <tr><td>Sergio Chissico & acompanhante</td><td>MESA 6</td></tr>
+
+            <tr class="table-divider"><td colspan="2">MESA-7 (COMBOIO)</td></tr>
+            <tr><td>Eulalia Amelia</td><td>MESA 7 (Comboio)</td></tr>
+            <tr><td>Ondina De Barca & Esposo</td><td>MESA 7 (Comboio)</td></tr>
+            <tr><td>Victoria De Barca & Esposo</td><td>MESA 7 (Comboio)</td></tr>
+            <tr><td>Deolinda Da Barca</td><td>MESA 7 (Comboio)</td></tr>
+            <tr><td>Ângelo & Nadia</td><td>MESA 7 (Comboio)</td></tr>
+            <tr><td>Mila Tome & Esposa</td><td>MESA 7 (Comboio)</td></tr>
+            <tr><td>Joana Madeira</td><td>MESA 7 (Comboio)</td></tr>
+            <tr><td>Amelia Macie</td><td>MESA 7 (Comboio)</td></tr>
+            <tr><td>Judite Madeira</td><td>MESA 7 (Comboio)</td></tr>
+            <tr><td>Albertina Antonio</td><td>MESA 7 (Comboio)</td></tr>
+            <tr><td>Rosalia Chissico</td><td>MESA 7 (Comboio)</td></tr>
+            <tr><td>Betriaz Fumo</td><td>MESA 7 (Comboio)</td></tr>
+            <tr><td>Filipe Johane & Esposa</td><td>MESA 7 (Comboio)</td></tr>
+            <tr><td>Regina Chissico</td><td>MESA 7 (Comboio)</td></tr>
+            <tr><td>Stela Naftal Chissico</td><td>MESA 7 (Comboio)</td></tr>
+            <tr><td>Franscisco Ferrao & Esposa</td><td>MESA 7 (Comboio)</td></tr>
+
+            <tr class="table-divider"><td colspan="2">MESA-8</td></tr>
+            <tr><td>Patricia Matsinhe</td><td>MESA 8</td></tr>
+            <tr><td>Lino Alfiado</td><td>MESA 8</td></tr>
+            <tr><td>Arnaldo Ferrao e Esposa</td><td>MESA 8</td></tr>
+            <tr><td>Rossina Matsinhe</td><td>MESA 8</td></tr>
+            <tr><td>Aires Johane</td><td>MESA 8</td></tr>
+
+            <tr class="table-divider"><td colspan="2">MESA-9</td></tr>
+            <tr><td>Mario Chissico & Esposa</td><td>MESA 9</td></tr>
+            <tr><td>Vovo Eddy</td><td>MESA 9</td></tr>
+            <tr><td>Vovo Isabel</td><td>MESA 9</td></tr>
+            <tr><td>Graca Taimo</td><td>MESA 9</td></tr>
+            <tr><td>Horacio Sitoe & Esposa</td><td>MESA 9</td></tr>
+            <tr><td>Bino Sive & Esposa</td><td>MESA 9</td></tr>
+            <tr><td>Gladys Naftal</td><td>MESA 9</td></tr>
+            <tr><td>Jaime Chissico & Esposa</td><td>MESA 9</td></tr>
+
+            <tr class="table-divider"><td colspan="2">MESA-10</td></tr>
+            <tr><td>Lambo Vilanculos & Esposa</td><td>MESA 10</td></tr>
+            <tr><td>Gift Sumane & Esposa</td><td>MESA 10</td></tr>
+            <tr><td>Fernando Gonde Jr & Esposa</td><td>MESA 10</td></tr>
+            <tr><td>Kevin Chissico & Esposa</td><td>MESA 10</td></tr>
+            <tr><td>Vafi Chissico & Esposa</td><td>MESA 10</td></tr>
+            <tr><td>Toharley Truzao & Esposa</td><td>MESA 10</td></tr>
+
+            <tr class="table-divider"><td colspan="2">MESA-11</td></tr>
+            <tr><td>Edson Cuco & Esposa</td><td>MESA 11</td></tr>
+            <tr><td>Erica Parsotamo & Esposo</td><td>MESA 11</td></tr>
+            <tr><td>Aline Pauline</td><td>MESA 11</td></tr>
+            <tr><td>Melba Pauline</td><td>MESA 11</td></tr>
+
+            <tr class="table-divider"><td colspan="2">MESA-12</td></tr>
+            <tr><td>Cesaltina Campos & Esposo</td><td>MESA 12</td></tr>
+            <tr><td>Joaquina Agostinho & Esposo</td><td>MESA 12</td></tr>
+            <tr><td>Amina & Esposo</td><td>MESA 12</td></tr>
+            <tr><td>Pedro Afonso (Pedrito) & Filha</td><td>MESA 12</td></tr>
+
+            <tr class="table-divider"><td colspan="2">MESA-13</td></tr>
+            <tr><td>Egidio Madeira & acompanhante</td><td>MESA 13</td></tr>
+            <tr><td>Gisela Madeira</td><td>MESA 13</td></tr>
+            <tr><td>Chipande & Esposa</td><td>MESA 13</td></tr>
+            <tr><td>Elisio De Sousa & Esposa</td><td>MESA 13</td></tr>
+            <tr><td>Ekan Madeira & Esposa</td><td>MESA 13</td></tr>
+            <tr><td>Emersson Madeira & Esposa</td><td>MESA 13</td></tr>
+            <tr><td>Ines Madeira</td><td>MESA 13</td></tr>
+
+            <tr class="table-divider"><td colspan="2">MESA-14</td></tr>
+            <tr><td>Marcon & Namorada</td><td>MESA 14</td></tr>
+            <tr><td>Kayla Domingos & Esposo</td><td>MESA 14</td></tr>
+            <tr><td>Decio Amelia</td><td>MESA 14</td></tr>
+            <tr><td>Bebucho & Esposa</td><td>MESA 14</td></tr>
+            <tr><td>Sonaldo</td><td>MESA 14</td></tr>
+            <tr><td>Hilton Domingos</td><td>MESA 14</td></tr>
+            <tr><td>Prescilia O Da Silva</td><td>MESA 14</td></tr>
+        </tbody>
+    </table>
+
+    <div id="noResult" class="no-result">Nenhum convidado encontrado.</div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            updateCounter();
+        });
+
+        function filterGuests() {
+            var input = document.getElementById("searchInput");
+            var filter = input.value.toLowerCase().trim();
+            var table = document.getElementById("guestTable");
+            var tr = table.getElementsByTagName("tr");
+            var noResult = document.getElementById("noResult");
+            var visibleCount = 0;
+
+            for (var i = 1; i < tr.length; i++) {
+                if (tr[i].classList.contains("table-divider")) {
+                    var dividerText = tr[i].textContent || tr[i].innerText;
+                    if (filter !== "" && dividerText.toLowerCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = filter === "" ? "" : "none";
+                    }
+                    continue;
+                }
+
+                var tdName = tr[i].getElementsByTagName("td")[0];
+                var tdTable = tr[i].getElementsByTagName("td")[1];
+                
+                if (tdName || tdTable) {
+                    var nameText = tdName ? (tdName.textContent || tdName.innerText) : "";
+                    var tableText = tdTable ? (tdTable.textContent || tdTable.innerText) : "";
+                    
+                    if (nameText.toLowerCase().indexOf(filter) > -1 || tableText.toLowerCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                        visibleCount++;
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+
+            document.getElementById("guestCounter").innerText = "Total de Registos: " + visibleCount;
+
+            if (visibleCount === 0 && filter !== "") {
+                noResult.style.display = "block";
+            } else {
+                noResult.style.display = "none";
+            }
+        }
+
+        function updateCounter() {
+            var table = document.getElementById("guestTable");
+            var tr = table.querySelectorAll("tbody tr:not(.table-divider)");
+            document.getElementById("guestCounter").innerText = "Total de Registos: " + tr.length;
+        }
+    </script>
+</body>
+</html>
