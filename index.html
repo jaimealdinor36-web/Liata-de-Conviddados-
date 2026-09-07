@@ -293,14 +293,43 @@
 
     <div id="noResult" class="no-result">Nenhum convidado encontrado.</div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            loadSavedState();
-            loadSavedNames();
-            updateCounter();
-        });
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        function toggleCheck(checkbox) {
+        const firebaseConfig = {
+            apiKey: "SUA_API_KEY",
+            authDomain: "lista-ordenada.firebaseapp.com",
+            databaseURL: "SUA_DATABASE_URL",
+            projectId: "lista-ordenada",
+            appId: "SUA_APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Expor funções necessárias para o escopo global do HTML
+        window.saveNames = function() {
+            var names = [];
+            document.querySelectorAll("td.guest-name").forEach(td => {
+                names.push(td.innerText.trim());
+            });
+            localStorage.setItem("guestNamesState", JSON.stringify(names));
+        };
+
+        window.loadSavedNames = function() {
+            var savedNames = JSON.parse(localStorage.getItem("guestNamesState"));
+            if (savedNames) {
+                var nameCells = document.querySelectorAll("td.guest-name");
+                nameCells.forEach((td, index) => {
+                    if (savedNames[index] !== undefined) {
+                        td.innerText = savedNames[index];
+                    }
+                });
+            }
+        };
+
+        window.toggleCheck = function(checkbox) {
             var row = checkbox.closest("tr");
             if (checkbox.checked) {
                 row.classList.add("checked");
@@ -309,9 +338,9 @@
             }
             saveState();
             updateCounter();
-        }
+        };
 
-        function filterGuests() {
+        window.filterGuests = function() {
             var input = document.getElementById("searchInput");
             var filter = input.value.toLowerCase().trim();
             var table = document.getElementById("guestTable");
@@ -351,21 +380,21 @@
             } else {
                 noResult.style.display = "none";
             }
-        }
+        };
 
-        function updateCounter() {
+        window.updateCounter = function() {
             var allRows = document.querySelectorAll("tbody tr:not(.table-divider)");
             var checkedRows = document.querySelectorAll("tbody tr.checked");
             document.getElementById("guestCounter").innerText = 
                 "Presentes: " + checkedRows.length + " de " + allRows.length + " convidados";
-        }
+        };
 
-        function handleEnter(event) {
+        window.handleEnter = function(event) {
             if (event.key === "Enter") {
                 event.preventDefault();
                 event.target.blur();
             }
-        }
+        };
 
         function saveState() {
             var checkboxes = document.querySelectorAll("tbody input[type='checkbox']");
@@ -386,23 +415,11 @@
             }
         }
 
-        function saveNames() {
-            var guestCells = document.querySelectorAll("td.guest-name");
-            var names = Array.from(guestCells).map(cell => cell.innerText.trim());
-            localStorage.setItem("guestNamesState", JSON.stringify(names));
-        }
-
-        function loadSavedNames() {
-            var savedNames = JSON.parse(localStorage.getItem("guestNamesState"));
-            if (savedNames) {
-                var guestCells = document.querySelectorAll("td.guest-name");
-                guestCells.forEach((cell, index) => {
-                    if (savedNames[index] !== undefined) {
-                        cell.innerText = savedNames[index];
-                    }
-                });
-            }
-        }
+        document.addEventListener("DOMContentLoaded", function() {
+            loadSavedState();
+            loadSavedNames();
+            updateCounter();
+        });
     </script>
 </body>
 </html>
